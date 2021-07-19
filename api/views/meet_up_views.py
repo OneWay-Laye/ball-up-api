@@ -28,7 +28,7 @@ class MeetUpCreate(APIView):
         mu = MeetUpSerializer(data=request.data['meetup'])
         if mu.is_valid():
             mu.save()
-            return Response(mu.data, status=status.HTTP_200_OK)
+            return Response({ 'meetup': mu.data }, status=status.HTTP_200_OK)
         else:
             return Response(mu.errors, status=status.HTTP_400_BAD_REQUEST)
 
