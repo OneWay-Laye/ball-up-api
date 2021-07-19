@@ -26,7 +26,7 @@ class ParkDetail(APIView):
     permission_classes = ()
     def get(self, request, pk):
         """Show Park"""
-        park = get_object_or_404(Parks, pk=pk)
+        park = get_object_or_404(Park, pk=pk)
 
         data = ParkSerializer(park).data
 

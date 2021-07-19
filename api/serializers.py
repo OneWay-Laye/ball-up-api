@@ -4,6 +4,7 @@ from rest_framework import serializers
 from .models.mango import Mango
 from .models.user import User
 from .models.park import Park
+from .models.meet_up import MeetUp
 
 class MangoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,7 +14,7 @@ class MangoSerializer(serializers.ModelSerializer):
 class ParkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Park
-        fields = ('id', 'name', 'address', 'longitude', 'latitude', 'indoor','numOfCourts')
+        fields = ('id', 'name', 'address', 'longitude', 'latitude', 'indoor', 'numOfCourts')
 
 
 
@@ -53,3 +54,18 @@ class ChangePasswordSerializer(serializers.Serializer):
     model = get_user_model()
     old = serializers.CharField(required=True)
     new = serializers.CharField(required=True)
+
+
+class MeetUpSerializer(serializers.ModelSerializer):
+    """This is the serializer for meetups"""
+    class Meta:
+        model = MeetUp
+        fields = '__all__'
+
+class MeetUpReadSerializer(MeetUpSerializer):
+    """This will be shown on get resquest"""
+    player = UserSerializer(source='player_id')
+    park = ParkSerializer(source='park_id')
+    class Meta:
+        model = MeetUp
+        fields = '__all__'
