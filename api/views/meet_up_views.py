@@ -46,13 +46,13 @@ class MeetUpDetailsDeleteUpdate(APIView):
         """Update Request"""
         meetup = get_object_or_404(MeetUp, pk=pk)
         if request.user != meetup.owner:
-            raise PermissionDenied('You do not have accese to change meetup')
+            raise PermissionDenied('You do not have access to change meetup')
 
         request.data['meetup']['owner'] = request.user.id
-        data = MeetUpSerializer(MeetUp, data=request.data['meetup'], partial=True)
+        data = MeetUpSerializer(meetup, data=request.data['meetup'], partial=True)
         if data.is_valid():
             data.save()
-            return Response(status=status.HTTP_202_ACCEPTED)
+            return Response({ 'meetup': data.data }, status=status.HTTP_202_ACCEPTED)
         return Response(data.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
     def delete(self,request, pk):
